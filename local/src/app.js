@@ -1,6 +1,6 @@
 'use strict';
 
-var bootDir = '../ForBoot';
+var bootDir = '/boot';
 
 var obtains = [
   './src/gridControl.js',
@@ -59,7 +59,7 @@ obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, { config })=> {
         }, 100 * i);
       }
 
-      setInterval(grid.setNextActive, 200);
+      setInterval(grid.setNextActive, config.tempo);
     };
 
     grid.onNextActive = (data, which)=> {
