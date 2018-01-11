@@ -1,16 +1,29 @@
 'use strict';
 
-obtain(['./src/gridControl.js', 'µ/color.js'], ({ Grid }, { rainbow })=> {
+var bootDir = '../ForBoot';
+
+var obtains = [
+  './src/gridControl.js',
+  'µ/color.js',
+  'µ/utilities.js',
+  `${bootDir}/gridConfig/config.js`,
+];
+
+obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, { config })=> {
+  console.log(config);
   exports.app = {};
 
   let grid = new Grid();
 
+  var aud = 'audio';
+  aud = `${bootDir}/gridConfig/notes`;
+
   var clips = [];
   // clips[4] = new Audio('audio/note-e.wav');
-  clips[3] = new Audio('audio/note-d.wav');
-  clips[2] = new Audio('audio/note-c.wav');
-  clips[1] = new Audio('audio/note-b.wav');
-  clips[0] = new Audio('audio/note-a.wav');
+  for (let i = 0; i < 14; i++) {
+    console.log(`${aud}/note-${zeroPad((i + 1), 2)}.${config.fileType}`);
+    clips[i] = new Audio(`${aud}/note-${zeroPad((i + 1), 2)}.${config.fileType}`);
+  }
 
   var cells = [];
 
@@ -39,9 +52,9 @@ obtain(['./src/gridControl.js', 'µ/color.js'], ({ Grid }, { rainbow })=> {
     };
 
     grid.onReady = ()=> {
-      for (let i = 1; i < 17; i++) {
+      for (let i = 1; i < clips.length + 1; i++) {
         setTimeout(()=> {
-          var col = rainbow(i, 4).scale(.25);
+          var col = rainbow(i, clips.length).scale(.25);
           grid.setRowColor(i, col[0], col[1], col[2]);
         }, 100 * i);
       }
