@@ -67,7 +67,7 @@ obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, { config })=> {
         if (!value) {
           console.log('strike!');
           cells[which][ind].clip.currentTime = 0;
-          //cells[which][ind].clip.play();
+          cells[which][ind].clip.play();
         }
       });
     };

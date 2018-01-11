@@ -1,7 +1,7 @@
 #!/bin/bash
 
-REPO_NAME = midiGrid
-ACCOUNT = heidgera
+REPO_NAME=midiGrid
+ACCOUNT=scimusmn
 
 echo "\nInstalling node:"
 
@@ -29,4 +29,4 @@ echo "\nConfiguring"
 
 cd piFig
 
-sudo node installPi.js
+sudo node install.js
