@@ -1,6 +1,6 @@
 #!/bin/bash
 
-REPO_NAME = template
+REPO_NAME = midiGrid
 ACCOUNT = heidgera
 
 echo "\nInstalling node:"
