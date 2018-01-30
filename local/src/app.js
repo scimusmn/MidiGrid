@@ -48,7 +48,7 @@ obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, { config }, fs, { exec })=>
         cells[i] = [];
         for (var j = 0; j < clips.length; j++) {
           cells[i][j] = µ('+div', col);
-          cells[i][j].clip = clips[j].cloneNode(true);
+          //cells[i][j].clip = clips[j].cloneNode(true);
 
         }
       }
@@ -70,8 +70,8 @@ obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, { config }, fs, { exec })=>
         data.forEach(function (value, ind, arr) {
           if (!value) {
             console.log('strike!');
-            cells[which][ind].clip.currentTime = 0;
-            cells[which][ind].clip.play();
+            clips[ind].currentTime = 0;
+            clips[ind].play();
           }
         });
       }
