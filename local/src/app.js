@@ -7,9 +7,11 @@ var obtains = [
   'µ/color.js',
   'µ/utilities.js',
   `${bootDir}/gridConfig/config.js`,
+  'fs',
+  'child_process',
 ];
 
-obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, { config })=> {
+obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, { config }, fs, { exec })=> {
   console.log(config);
   exports.app = {};
 
@@ -33,6 +35,7 @@ obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, { config })=> {
   var colRead = 0;
 
   exports.app.start = ()=> {
+    exec('amixer set PCM -- 100%');
     grid.setup();
 
     grid.onUpdateCount = ()=> {
@@ -63,13 +66,16 @@ obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, { config })=> {
     };
 
     grid.onNextActive = (data, which)=> {
-      data.forEach(function (value, ind, arr) {
-        if (!value) {
-          console.log('strike!');
-          cells[which][ind].clip.currentTime = 0;
-          cells[which][ind].clip.play();
-        }
-      });
+      if (data && data.length) {
+        data.forEach(function (value, ind, arr) {
+          if (!value) {
+            console.log('strike!');
+            cells[which][ind].clip.currentTime = 0;
+            cells[which][ind].clip.play();
+          }
+        });
+      }
+
     };
 
     grid.onCellChange = (col, row, val)=> {
