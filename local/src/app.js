@@ -1,31 +1,37 @@
 'use strict';
 
-var bootDir = '/boot';
+var fs = require('fs');
+
+var bootDir = `${__dirname}/../../ForBoot/`;
+if (fs.existsSync('/boot')) {
+  bootDir = '/boot';
+  console.log('Running on raspberry pi');
+}
 
 var obtains = [
   './src/gridControl.js',
   'µ/color.js',
   'µ/utilities.js',
   `${bootDir}/gridConfig/config.js`,
-  'fs',
   'child_process',
 ];
 
-obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, { config }, fs, { exec })=> {
+obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, { config }, { exec })=> {
   console.log(config);
   exports.app = {};
 
   let grid = new Grid();
 
-  var aud = 'audio';
-  aud = `${bootDir}/gridConfig/notes`;
+  var aud = `${bootDir}/gridConfig/notes`;
 
   var clips = [];
-  // clips[4] = new Audio('audio/note-e.wav');
-  for (let i = 0; i < 14; i++) {
-    console.log(`${aud}/note-${zeroPad((i + 1), 2)}.${config.fileType}`);
-    clips[i] = new Audio(`${aud}/note-${zeroPad((i + 1), 2)}.${config.fileType}`);
-  }
+  fs.readdir(aud, (err, files)=> {
+    if (err) console.error(err);
+    console.log('here');
+    files.forEach((file, i, arr)=> {
+      clips[i] = new Audio(`${aud}/${file}`);
+    });
+  });
 
   var cells = [];
 
@@ -48,8 +54,6 @@ obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, { config }, fs, { exec })=>
         cells[i] = [];
         for (var j = 0; j < clips.length; j++) {
           cells[i][j] = µ('+div', col);
-          //cells[i][j].clip = clips[j].cloneNode(true);
-
         }
       }
     };
@@ -70,8 +74,10 @@ obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, { config }, fs, { exec })=>
         data.forEach(function (value, ind, arr) {
           if (!value) {
             console.log('strike!');
-            clips[ind].currentTime = 0;
-            clips[ind].play();
+            if (clips[i]) {
+              clips[ind].currentTime = 0;
+              clips[ind].play();
+            }
           }
         });
       }
