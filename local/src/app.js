@@ -74,7 +74,7 @@ obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, { config }, { exec })=> {
         data.forEach(function (value, ind, arr) {
           if (!value) {
             console.log('strike!');
-            if (clips[i]) {
+            if (clips[ind]) {
               clips[ind].currentTime = 0;
               clips[ind].play();
             }
