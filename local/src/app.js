@@ -85,7 +85,7 @@ obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, { config }, { exec })=> {
     };
 
     grid.onCellChange = (col, row, val)=> {
-      //console.log(`${col}:${row} was changed`);
+      console.log(`${col}:${row} was changed`);
       cells[col][row].classList.toggle('occ', val);
     };
 

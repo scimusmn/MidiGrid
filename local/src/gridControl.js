@@ -87,6 +87,7 @@ obtain(['µ/serial.js'], (ser)=> {
             let states = 0;
             let numCells = 0;
             numCells = data[2];
+            console.log(`there are ${numCells} cells in column ${addr}`);
             if (numCells && numBoards) {
               for (let j = 0; j  < (numCells / 7); j++) {
                 states = data[3 + j];
