@@ -198,7 +198,7 @@ void sendStates(){
   
   for(int j = 0; j  < (numBoards / 7) + 1; j++){
     int states = 0;
-    for( int k =0; k < (numBoards % 7); k++){
+    for( int k =0; k < 7 && k + j*7 < numBoards; k++){
       bitWrite(states, k, boardStates[j * 7 + k]);
     }
 
