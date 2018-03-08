@@ -92,7 +92,7 @@ obtain(['µ/serial.js'], (ser)=> {
               for (let j = 0; j  < (numCells / 7); j++) {
                 states = data[3 + j];
                 console.log(states);
-                for (let k = 0; k < 7 && k + j * 7 < numCells; k++) {
+                for (let k = 0; k < 7 &&   k + j * 7 < numCells; k++) {
                   let newRead = (states & Math.pow(2, k));
                   if (_this.states[addr][j * 7 + k] != newRead) {
                     _this.states[addr][j * 7 + k] = newRead;

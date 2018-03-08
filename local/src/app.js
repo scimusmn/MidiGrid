@@ -66,7 +66,9 @@ obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, { config }, { exec })=> {
         }, 100 * i);
       }
 
-      setInterval(grid.setNextActive, config.tempo);
+      var tempo = (config.tempo <= 600) ? 60000 / config.tempo : config.tempo;
+
+      setInterval(grid.setNextActive, tempo);
     };
 
     grid.onNextActive = (data, which)=> {
