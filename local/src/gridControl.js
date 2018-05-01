@@ -178,8 +178,10 @@ obtain(['µ/serial.js'], (ser)=> {
       let oldActive = _this.active;
       resetActive(BROADCAST, ()=> {
         //_this.getColumnCount();
-        setActive((oldActive % numBoards) + 1);
+
       });
+
+      setActive((oldActive % numBoards) + 1);
       //
 
       _this.onNextActive(_this.states[oldActive % numBoards], oldActive % numBoards);
