@@ -72,6 +72,8 @@ int * boardStates;
 unsigned long countTimer = 0;
 unsigned long colorTimer = 0;
 
+unsigned long beginTimer = 0;
+
 unsigned long activeTimer = 0;
 unsigned long resetTimer = 0;
 
@@ -336,7 +338,8 @@ void columnSerialHandle(unsigned char * input, int pntr){
       unsigned char cmd = input[1];
       switch(cmd){
         case (SEND_COUNT):
-          address = input[2] + 1; 
+          address = input[2] + 1;
+          beginTimer = millis();
           sendPacket(input[0],cmd, address);
           //requestCount();
           scheduleCount = true;
@@ -402,17 +405,23 @@ void (* callbacks [5])() = {requestCount, setColor, resetActive,setActive, reque
 
 void loop() {
 
-  if(countTimer < millis() && address > 0){
-    countTimer = millis() + 200;
+  if(countTimer < millis() && address > 0  && beginTimer + 5000 < millis()){
+    countTimer = millis() + 500;
     //requestSensorStates();
     scheduleRead = true;
   }
 
   if(writeTimer < millis() && writing){
-    Serial.write(COMMAND | REPORT);
-    Serial.print("Error: Didn't receive verification on  ");
-    Serial.print(writing);
-    Serial.write(COMMAND + END_FLAG);
+    if(writing != 5 && writing != 3){
+      Serial.write(COMMAND | REPORT);
+      Serial.print("Error: Didn't receive verification on  ");
+      Serial.print(writing);
+      Serial.write(COMMAND + END_FLAG);
+    }
+    
+    if(writing == 1) scheduleCount = true;
+    else if(writing == 2) scheduleColor = true;
+    //else if(writing == 3) scheduleReset = true;
     writing = 0;
   }
 
@@ -426,7 +435,7 @@ void loop() {
         callbacks[i]();
         *(schedules[i]) = false;
         writing = i+1;
-        writeTimer = millis() + 100;
+        writeTimer = millis() + 75;
         break;
       }
     }

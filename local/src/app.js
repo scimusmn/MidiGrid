@@ -62,13 +62,16 @@ obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, { config }, { exec })=> {
       for (let i = 1; i < clips.length + 1; i++) {
         setTimeout(()=> {
           var col = rainbow(i, clips.length).scale(.25);
+          console.log(col);
           grid.setRowColor(i, col[0], col[1], col[2]);
-        }, 100 * i);
+        }, 500 * i);
       }
 
       var tempo = (config.bpm) ? 60000 / config.bpm : config.tempo;
 
-      setInterval(grid.setNextActive, tempo);
+      setTimeout(()=> {
+        setInterval(grid.setNextActive, tempo);
+      }, 10000);
     };
 
     grid.onNextActive = (data, which)=> {
