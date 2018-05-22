@@ -2,27 +2,31 @@
 
 var fs = require('fs');
 
-var bootDir = `${__dirname}/../../ForBoot/`;
-if (fs.existsSync('/boot')) {
-  bootDir = '/boot';
-  console.log('Running on raspberry pi');
-}
+var process = require('electron').remote.process;
+
+window.appDataDir = (process.platform != 'linux') ?  `${__dirname}/../../ForBoot/appData` :
+                (process.arch == 'x64') ? '/usr/local/appData' :
+                '/boot/appData';
+
+console.log(window.appDataDir);
 
 var obtains = [
   './src/gridControl.js',
   'µ/color.js',
   'µ/utilities.js',
-  `${bootDir}/gridConfig/config.js`,
+  `${window.appDataDir}/config.js`,
   'child_process',
 ];
 
-obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, { config }, { exec })=> {
+obtain(obtains, ({ Grid }, { rainbow }, { zeroPad }, config, { exec })=> {
   console.log(config);
   exports.app = {};
 
   let grid = new Grid();
 
-  var aud = `${bootDir}/gridConfig/notes`;
+  var aud = `${window.appDataDir}/notes`;
+
+  console.log(aud);
 
   var clips = [];
   fs.readdir(aud, (err, files)=> {
