@@ -56,7 +56,7 @@ function createWindow() {
   }));
 
   // Open the DevTools.
-  mainWindow.webContents.openDevTools();
+  if (config.showDevTools) mainWindow.webContents.openDevTools();
 
   mainWindow.webContents.session.clearCache(function () {
     //some callback.
